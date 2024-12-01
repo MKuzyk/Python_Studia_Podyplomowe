@@ -6,7 +6,7 @@ określonego przez użytkownika.
 zakres_from=int(input("Podaj początkową liczbę zakresu:"))
 zakres_to=int(input("Podaj końcową liczbę zakresu:"))
 
-print("liczby podziene przez 3, 5 lub t z zakrsu ",zakres_from," do ",zakres_to," to: ",end=" ")
+print("liczby podziene przez 3, 5 lub t z zakresu od ",zakres_from," do ",zakres_to," to: ",end=" ")
 
 for i in range (zakres_from,zakres_to+1):
 
