@@ -8,8 +8,9 @@ n=int(input("Podaj numer bitu: "))
 
 mask=1<<n
 result=number & mask
+bit=int(bool(result))
 
-print()
+print("bit na pozycji ", n, " dla liczby ",number," wynosi: ",str(bit)," .")
 
 print("{:08b}".format(number))
 print("{:08b}".format(mask))
