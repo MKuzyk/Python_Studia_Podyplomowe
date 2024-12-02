@@ -17,6 +17,7 @@ u_range=int(input("podaj górny zakres: "))
 
 rand_numbers=[]
 series_numbers = []
+series_numbers_2 = []
 series=int(random.randint(l_range,u_range))
 
 for i in range(l_range,u_range+1):
@@ -32,5 +33,14 @@ for j in range(series):
         series_numbers.append(int(random.randint(l_range,u_range)))
     print(series_numbers,end=" ")
 
+print(" ")
+
+for j in range(u_range+1):
+
+    series_numbers_2.clear()
+
+    for i in range(l_range,u_range+1):
+        series_numbers_2.append(int(random.randint(l_range,u_range)))
+    print(series_numbers_2,end=" ")
 
 
