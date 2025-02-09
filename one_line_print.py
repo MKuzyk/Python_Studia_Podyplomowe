@@ -1,0 +1,1 @@
+print("Te trzy linie tesktu","zostały wyświetlone","za pomocą jednej instrukcji Pthona.",sep="\n")
