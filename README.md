@@ -1,2 +1,2 @@
-# Python_Z_2
-Pytahon zadania zjazd 2
+# Python_Studia_Podyplomowe
+Pytahon zadania wykładay i laboratoria
