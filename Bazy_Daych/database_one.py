@@ -20,6 +20,14 @@ connection_string = (
 
 connection = pyodbc.connect(connection_string)
 
-connection.execute("CREATE TABLE users(ID int identity, name valrchar(255),age int)")
+connection.execute("CREATE TABLE users(ID int identity, name varchar(255),age int)")
 connection.execute("Insert into users(name,age) values('Michal',40),('Andrzej',28)")
+
+
+cursor=connection.cursor()
+
+cursor.execute("Select * from users")
+
+for row in cursor:
+    print(row)
 
