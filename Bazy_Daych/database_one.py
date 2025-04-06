@@ -31,3 +31,5 @@ cursor.execute("Select * from users")
 for row in cursor:
     print(row)
 
+cursor.close()
+connection.close()
