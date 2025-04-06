@@ -17,3 +17,9 @@ connection_string = (
     f'PWD={db_password};'
     'Encrypt=no'
 )
+
+connection = pyodbc.connect(connection_string)
+
+connection.execute("CREATE TABLE users(ID int identity, name valrchar(255),age int)")
+connection.execute("Insert into users(name,age) values('Michal',40),('Andrzej',28)")
+
