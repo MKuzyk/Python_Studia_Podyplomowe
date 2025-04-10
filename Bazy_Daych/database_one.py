@@ -32,7 +32,6 @@ cursor=connection.cursor()
 
 nowe_imie = input('Podaj nowe imię: ')
 
-
 cursor.execute(f"Update users set name='{nowe_imie}' where name ='Nowe'")
 connection.commit()
 
