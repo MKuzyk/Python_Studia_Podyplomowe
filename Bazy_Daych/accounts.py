@@ -50,10 +50,54 @@ class Account:
         account.deposit(amount,auto_commit=False)
         connection.commit()
 
+
+    def send_funds(self, amount: float, account):
+        try:
+            if amount <= 0:
+                raise ValueError("Kwota przelewu musi być większa niż 0")
+
+            self.withdraw(amount, auto_commit=False)
+
+            if self.balance < 0:
+                raise ValueError(f'Saldo konta {self.name} nie może być ujemne! Cofnięcie transakcji.')
+
+            account.deposit(amount, auto_commit=False)
+
+            connection.commit()
+            print(f'Przelano {amount} PLN z konta {self.name} na konto {account.name}')
+
+        except Exception as e:
+            connection.rollback()
+            print(f'Transakcja nieudana: {e}')
+
+    def transaction_history(self):
+        cursor = connection.execute("SELECT transaction_time, amount FROM transactions WHERE account_id = ? ORDER BY transaction_time DESC"
+        , (self.id,))
+
+        transactions = cursor.fetchall()
+
+        print(f'\n Historia transakcji konta: {self.name}')
+        if not transactions:
+            print("Brak transakcji.")
+            return
+
+        for row in transactions:
+            transaction_time = row.transaction_time
+            amount = row.amount
+
+            transaction_type = "Wpłata" if amount > 0 else "Wypłata"
+
+            formatted_time = transaction_time.strftime('%Y-%m-%d %H:%M:%S')
+
+            print(f"[{transaction_type}] {formatted_time} | Kwota: {amount:.2f} PLN")
+
+
 if __name__ == '__main__':
     account_jan = Account('Jan',10)
     account_michal = Account('Michal', 10)
     account_jan.send_funds(5,account_michal)
+    account_michal.transaction_history()
+
 
 
 
