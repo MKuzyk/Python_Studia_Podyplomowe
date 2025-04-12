@@ -29,7 +29,7 @@ worker_table = Table('workers', metadata,
 
 address_table = Table('address', metadata,
                      Column('address_id', Integer, primary_key=True,autoincrement=True),
-                     Column('Country', String(255), nullable=False),
+                     Column('country', String(255), nullable=False),
                      Column('city', String(255), nullable=False),
                      Column('street', String(255), nullable=False),
                      Column('postal_code', String(25), nullable=False),
@@ -38,6 +38,7 @@ address_table = Table('address', metadata,
 connection = engine.connect()
 
 if __name__ == '__main__':
-    query = select(worker_table.join(address_table))
+    query = select(worker_table.c.pesel,address_table.c.country)\
+        .join_from (worker_table,address_table)
     result = connection.execute(query)
     print(result.fetchall())
