@@ -21,7 +21,7 @@ class Author(Base):
     middle_name: Mapped[Optional[str]]
 
     books: Mapped[List['Book']] = relationship (back_populates='author', cascade='delete,delete-orphan')
-    address: Mapped['Address'] = relationship('Address', back_populates='author',cascade='delete,delete-orphan')
+    address: Mapped['Address'] = relationship(back_populates='author',cascade='delete,delete-orphan')
 
 class Address(Base):
     __tablename__ ='address'
@@ -30,6 +30,8 @@ class Address(Base):
     country: Mapped[str255]
     city: Mapped[str255]
     author_id: Mapped[int] = mapped_column(ForeignKey('author.id'))
+
+    author: Mapped['Author'] = relationship(back_populates='author')
 
 class Book(Base):
     __tablename__ ='book'
