@@ -20,7 +20,8 @@ class Author(Base):
     login : Mapped[str] = mapped_column(String(100), default='No Login')
     middle_name: Mapped[Optional[str]]
 
-    books: Mapped[List['Book']] = relationship (back_populates='author', cascade='delete')
+    books: Mapped[List['Book']] = relationship (back_populates='author', cascade='delete,delete-orphan')
+    address: Mapped['Address'] = relationship('Address', back_populates='author',cascade='delete,delete-orphan')
 
 class Address(Base):
     __tablename__ ='address'
