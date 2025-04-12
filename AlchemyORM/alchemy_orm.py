@@ -22,6 +22,13 @@ class Author(Base):
 
     books: Mapped[List['Book']] = relationship (back_populates='author', cascade='delete')
 
+class Address(Base):
+    __tablename__ ='address'
+
+    id: Mapped[intpk]
+    country: Mapped[str255]
+    city: Mapped[str255]
+
 class Book(Base):
     __tablename__ ='book'
 
