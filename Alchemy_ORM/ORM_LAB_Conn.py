@@ -1,7 +1,10 @@
-from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 import os
+from sqlalchemy.schema import CreateSchema
+
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy.orm import declarative_base, sessionmaker, relationship
+from Alchemy_ORM.Laboratorium_4 import User, ShippingAddress, Cart, Product, CartProduct
 
 # Wczytanie zmiennych środowiskowych
 load_dotenv()
@@ -10,7 +13,7 @@ load_dotenv()
 database_password = os.environ.get('DATABASE_PASSWORD')
 suszi_login = 'mkuzyk'
 server = 'morfeusz.wszib.edu.pl'
-driver = 'ODBC+Driver+17+for+SQL+Server'
+driver = 'ODBC+Driver+18+for+SQL+Server'
 
 # Tworzenie silnika bazy danych
 engine = create_engine(
@@ -20,27 +23,18 @@ engine = create_engine(
 
 Session = sessionmaker(bind=engine)
 
-# Tworzenie schematów i tabel w bazie
 if __name__ == '__main__':
     session = Session()
-
-    # Sprawdzamy, czy schemat istnieje, jeśli nie to go tworzymy
-    check_schema_exists = text("""
-        IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'Products')
-        BEGIN
-            EXEC('CREATE SCHEMA Products')
-        END
-    """)
-
-    # Wykonujemy zapytanie warunkowe, które sprawdza, czy schemat istnieje, a jeśli nie, to go tworzy
-    session.execute(check_schema_exists)
+    #session.execute(CreateSchema('Products'))
+    #session.commit()
 
     # Importujemy Base i tworzymy tabele na podstawie metadanych
-    from AlchemyORM.Laboratorium_4 import Base
+    from Alchemy_ORM.Laboratorium_4 import Base
 
-    # Tworzenie tabel w schemacie Products
     Base.metadata.create_all(engine)
 
     # Zatwierdzamy zmiany i zamykamy sesję
     session.commit()
     session.close()
+
+Session = sessionmaker(engine)

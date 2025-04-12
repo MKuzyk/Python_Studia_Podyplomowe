@@ -29,7 +29,7 @@ class ShippingAddress(Base):
     apartment_number = Column(String, nullable=True)
 
     # Relacja z użytkownikiem
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('Products.users.id'))
     user = relationship("User", back_populates="shipping_address")
 
 class Cart(Base):
@@ -40,7 +40,7 @@ class Cart(Base):
     creation_date = Column(String)
 
     # Relacja z użytkownikiem
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('Products.users.id'))
     user = relationship("User", back_populates="carts")
 
     # Relacja wiele do wielu z produktami
@@ -59,5 +59,5 @@ class CartProduct(Base):
     __tablename__ = 'cart_products'
     __table_args__ = {'schema': 'Products'}
 
-    cart_id = Column(Integer, ForeignKey('carts.id'), primary_key=True)
-    product_id = Column(Integer, ForeignKey('products.id'), primary_key=True)
+    cart_id = Column(Integer, ForeignKey('Products.carts.id'), primary_key=True)
+    product_id = Column(Integer, ForeignKey('Products.products.id'), primary_key=True)
