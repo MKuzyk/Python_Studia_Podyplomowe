@@ -1,7 +1,7 @@
 import datetime
-from typing import Optional,Annotated
+from typing import Optional,Annotated,List
 from sqlalchemy import *
-from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, sessionmaker, relationship
 
 str255 = Annotated[str,mapped_column(String(255))]
 intpk = Annotated[int, mapped_column(Integer,primary_key=True, autoincrement=True)]
@@ -20,6 +20,8 @@ class Users(Base):
     login : Mapped[str] = mapped_column(String(100), default='No Login')
     middle_name: Mapped[Optional[str]]
 
+    books: Mapped[List['Book']]
+
 class Book(Base):
     __tablename__ ='book'
 
@@ -28,3 +30,6 @@ class Book(Base):
     description : Mapped[Optional[str]]
     publication_date: Mapped[datetime.date]
 
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+
+    author: Mapped['User'] = relationship()
