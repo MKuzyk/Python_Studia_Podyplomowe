@@ -9,7 +9,7 @@ load_dotenv()
 database_password = os.environ.get('DATABASE_PASSWORD')
 suszi_login = 'mkuzyk'
 server = 'morfeusz.wszib.edu.pl'
-driver = 'ODBC+Driver+17+for+SQL+Server'
+driver = 'ODBC+Driver+18+for+SQL+Server'
 
 # dialect+driver://username:password@host:port/database?dodtkowe_opcje_klucz_wartość
 engine = create_engine(
