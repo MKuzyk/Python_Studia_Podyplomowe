@@ -24,10 +24,10 @@ worker_table = Table('workers', metadata,
                      Column('first_name', String(255), nullable=False),
                      Column('last_name', String(255), nullable=False),
                      Column('birthday', Date, nullable=False),
-                     Column('address_id', Integer)
+                     Column('address_id', Integer,ForeignKey('address.address_id'), nullable=False),
                      )
 
-adress_table = Table('address', metadata,
+address_table = Table('address', metadata,
                      Column('address_id', Integer, primary_key=True,autoincrement=True),
                      Column('Country', String(255), nullable=False),
                      Column('city', String(255), nullable=False),
@@ -36,3 +36,8 @@ adress_table = Table('address', metadata,
                      )
 
 connection = engine.connect()
+
+if __name__ == '__main__':
+    query = select(worker_table.join(address_table))
+    result = connection.execute(query)
+    print(result.fetchall())
