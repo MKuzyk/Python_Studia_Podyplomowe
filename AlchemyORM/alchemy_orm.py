@@ -20,7 +20,7 @@ class Users(Base):
     login : Mapped[str] = mapped_column(String(100), default='No Login')
     middle_name: Mapped[Optional[str]]
 
-    books: Mapped[List['Book']]
+    books: Mapped[List['Book']] = relationship (back_populates='user', cascade='delete')
 
 class Book(Base):
     __tablename__ ='book'
@@ -32,4 +32,4 @@ class Book(Base):
 
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
 
-    author: Mapped['User'] = relationship()
+    user: Mapped['User'] = relationship(back_populates='books')
