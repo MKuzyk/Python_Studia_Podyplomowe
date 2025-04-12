@@ -1,14 +1,14 @@
 from sqlalchemy import *
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_base, mapped_column, Mapped
 
-Base = declarative_base()
-
+class Base (declarative_base):
+    pass
 
 class Users(Base):
     __tablename__ ='users'
 
-    id = Column (Integer,primary_key=True,autoincrement=True)
-    name = Column(String) #Varchar(Max)
-    email = Column(String(255))
-    login = Column(String(100), default='No Login')
-    middle_name = Column (String(255),nullable=True)
+    id: Mapped[int] = mapped_column (primary_key=True,autoincrement=True)
+    name :  Mapped[str]
+    email : Mapped[str] = mapped_column(String(255))
+    login : Mapped[str] = mapped_column(String(255), default='No Login')
+    middle_name: Mapped[str]
