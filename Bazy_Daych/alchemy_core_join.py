@@ -27,4 +27,12 @@ worker_table = Table('workers', metadata,
                      Column('address_id', Integer)
                      )
 
+adress_table = Table('address', metadata,
+                     Column('address_id', Integer, primary_key=True,autoincrement=True),
+                     Column('Country', String(255), nullable=False),
+                     Column('city', String(255), nullable=False),
+                     Column('street', String(255), nullable=False),
+                     Column('postal_code', String(25), nullable=False),
+                     )
+
 connection = engine.connect()
