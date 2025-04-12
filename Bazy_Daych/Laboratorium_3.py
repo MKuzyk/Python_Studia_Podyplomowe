@@ -102,6 +102,10 @@ if __name__ == '__main__':
 e. [0.2] Liczbę pracowników mieszkających w danym mieście.
 '''
 if __name__ == '__main__':
-    query = select(worker_table.join(address_table, worker_table.c.address_id == address_table.c.address_id))
+    query = select([address_table.c.city, func.count(worker_table.c.address_id).label('liczba_pracownikow')]) \
+    .select_from(worker_table.join(address_table, worker_table.c.address_id == address_table.c.address_id)) \
+    .group_by(address_table.c.city)
     result = connection.execute(query)
     print(result.fetchall())
+
+
