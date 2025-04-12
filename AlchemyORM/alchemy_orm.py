@@ -11,8 +11,8 @@ library_metadata = MetaData(schema = 'library_orm')
 class Base (DeclarativeBase):
     metadata = library_metadata
 
-class Users(Base):
-    __tablename__ ='users'
+class Author(Base):
+    __tablename__ ='author'
 
     id: Mapped[intpk]
     name :  Mapped[str]
@@ -20,7 +20,7 @@ class Users(Base):
     login : Mapped[str] = mapped_column(String(100), default='No Login')
     middle_name: Mapped[Optional[str]]
 
-    books: Mapped[List['Book']] = relationship (back_populates='user', cascade='delete')
+    books: Mapped[List['Book']] = relationship (back_populates='author', cascade='delete')
 
 class Book(Base):
     __tablename__ ='book'
@@ -30,6 +30,6 @@ class Book(Base):
     description : Mapped[Optional[str]]
     publication_date: Mapped[datetime.date]
 
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+    author_id: Mapped[int] = mapped_column(ForeignKey('author.id'))
 
-    user: Mapped['User'] = relationship(back_populates='books')
+    author: Mapped['Author'] = relationship(back_populates='books')
