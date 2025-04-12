@@ -28,6 +28,7 @@ class Address(Base):
     id: Mapped[intpk]
     country: Mapped[str255]
     city: Mapped[str255]
+    author_id: Mapped[int] = mapped_column(ForeignKey('author.id'))
 
 class Book(Base):
     __tablename__ ='book'
