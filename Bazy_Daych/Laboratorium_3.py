@@ -20,7 +20,7 @@ load_dotenv()
 database_password = os.environ.get('DATABASE_PASSWORD')
 suszi_login = 'mkuzyk'
 server = 'morfeusz.wszib.edu.pl'
-driver = 'ODBC+Driver+17+for+SQL+Server'
+driver = 'ODBC+Driver+18+for+SQL+Server'
 
 # dialect+driver://username:password@host:port/database?dodtkowe_opcje_klucz_wartość
 engine = create_engine(
@@ -102,10 +102,18 @@ if __name__ == '__main__':
 e. [0.2] Liczbę pracowników mieszkających w danym mieście.
 '''
 if __name__ == '__main__':
-    query = select([address_table.c.city, func.count(worker_table.c.address_id).label('liczba_pracownikow')]) \
-    .select_from(worker_table.join(address_table, worker_table.c.address_id == address_table.c.address_id)) \
-    .group_by(address_table.c.city)
+    query = select(
+        address_table.c.city,
+        func.count(worker_table.c.pesel).label('liczba_pracownikow')
+    ).select_from(
+        worker_table.join(address_table, worker_table.c.address_id == address_table.c.address_id)
+    ).group_by(
+        address_table.c.city
+    )
+
+    # Wykonanie
     result = connection.execute(query)
     print(result.fetchall())
+
 
 
