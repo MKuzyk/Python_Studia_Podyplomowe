@@ -6,8 +6,62 @@ from CTkTable import CTkTable
 
 session = Session()
 
+
+def load_authors():
+    authors = session.execute(select(Author)).scalars().all()
+    return [['ID', 'Imię', 'Drugie imię', 'Email', 'Login']] + \
+           [[a.id, a.name, a.middle_name, a.email, a.login] for a in authors]
+
+
+def refresh_table():
+    global authors_table
+    authors_data = load_authors()
+
+    authors_table.destroy()
+    authors_table = CTkTable(master=app_content, row=len(authors_data),
+                             column=len(authors_data[0]), values=authors_data)
+    authors_table.grid(row=0, column=0, padx=10, pady=10, sticky='ew')
+
+
 def add_author():
-    print("Dodanie autora kliknięte!")
+    def save_new_author():
+        if not name_entry.get() or not email_entry.get() or not login_entry.get():
+            print("Uzupełnij wymagane pola!")
+            return
+
+        new_author = Author(
+            name=name_entry.get(),
+            middle_name=middle_name_entry.get(),
+            email=email_entry.get(),
+            login=login_entry.get()
+        )
+        session.add(new_author)
+        session.commit()
+        add_window.destroy()
+        refresh_table()
+
+    add_window = ctk.CTkToplevel(app)
+    add_window.title("Dodaj autora")
+    add_window.geometry("400x300")
+
+    ctk.CTkLabel(add_window, text="Imię *").pack(pady=5)
+    name_entry = ctk.CTkEntry(add_window)
+    name_entry.pack()
+
+    ctk.CTkLabel(add_window, text="Drugie imię").pack(pady=5)
+    middle_name_entry = ctk.CTkEntry(add_window)
+    middle_name_entry.pack()
+
+    ctk.CTkLabel(add_window, text="Email *").pack(pady=5)
+    email_entry = ctk.CTkEntry(add_window)
+    email_entry.pack()
+
+    ctk.CTkLabel(add_window, text="Login *").pack(pady=5)
+    login_entry = ctk.CTkEntry(add_window)
+    login_entry.pack()
+
+    save_button = ctk.CTkButton(add_window, text="Zapisz", command=save_new_author)
+    save_button.pack(pady=15)
 
 
 if __name__ == '__main__':
@@ -32,12 +86,7 @@ if __name__ == '__main__':
     app_content.grid_columnconfigure(0, weight=1)
     app_content.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
 
-    authors = session.execute(select(Author)).scalars().all()
-    authors_data = [['ID', 'Imię', 'Drugie imię', 'Email', 'Login']] + \
-                   [[a.id, a.name, a.middle_name, a.email, a.login] for a in authors]
-
-    authors_table = CTkTable(master=app_content, row=len(authors), values=authors_data,
-                             column=len(authors_data[0]))
-    authors_table.grid(row=0, column=0, padx=10, pady=10, sticky='ew')
+    authors_table = CTkTable(master=app_content, row=0, column=0, values=[[]])  # Placeholder
+    refresh_table()
 
     app.mainloop()
