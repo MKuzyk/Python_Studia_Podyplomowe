@@ -6,7 +6,6 @@ from CTkTable import CTkTable
 
 session = Session()
 
-
 def add_author():
     print("Dodanie autora kliknięte!")
 
