@@ -13,6 +13,7 @@ class User(Base):
     last_name = Column(String)
     middle_name = Column(String, nullable=True)
 
+
     # Relacje
     shipping_address = relationship("ShippingAddress", back_populates="user", uselist=False)
     carts = relationship("Cart", back_populates="user")
